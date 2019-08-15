@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://github.com/DouganRedhammer/FranklinSoft.RegCompare/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/DouganRedhammer/FranklinSoft.RegCompare</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A utility to facilitate registry key comparisons.</description>
+    <releaseNotes>Initial Release.</releaseNotes>
+    <copyright>Copyright Daniel Franklin 2019</copyright>
+    <tags>Daniel Franklin FranklinSoft Registry Compare</tags>
+  </metadata>
+</package>

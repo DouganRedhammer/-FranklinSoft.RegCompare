@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.645
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FranklinSoft.RegCompare", "FranklinSoft.RegCompare\FranklinSoft.RegCompare.csproj", "{80F35BED-FA66-43ED-9CBC-6C6324775939}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FranklinSoft.RegCompareUnitTests", "FranklinSoft.RegCompareUnitTests\FranklinSoft.RegCompareUnitTests.csproj", "{2F460B5A-FDA7-4237-A93F-7F82310468E5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{80F35BED-FA66-43ED-9CBC-6C6324775939}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80F35BED-FA66-43ED-9CBC-6C6324775939}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80F35BED-FA66-43ED-9CBC-6C6324775939}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80F35BED-FA66-43ED-9CBC-6C6324775939}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F460B5A-FDA7-4237-A93F-7F82310468E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F460B5A-FDA7-4237-A93F-7F82310468E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F460B5A-FDA7-4237-A93F-7F82310468E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F460B5A-FDA7-4237-A93F-7F82310468E5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C7EC66E8-E925-4ADE-A5AD-7AFEA8D12109}
+	EndGlobalSection
+EndGlobal
