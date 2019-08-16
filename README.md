@@ -1,18 +1,24 @@
 # FranklinSoft.RegCompare
+![Nuget](https://img.shields.io/nuget/v/FranklinSoft.RegCompare?style=for-the-badge) ![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/DouganRedhammer/FranklinSoft.RegCompare?style=for-the-badge)
 
-RegCompare is a Windows Registry helper.
-
+### RegCompare is a Windows Registry helper.
+- Find matching differences.
+- Find missing keys
+- Save missing results to a .reg file
+- Async calls to the Windows Registy 
 ### Installation
 
-Nuget install
+Nuget install 
 ```sh
 PM> Install-Package FranklinSoft.RegCompare -Version 1.0.0
 ```
-Examples:
+[Nuget project page](https://www.nuget.org/packages/FranklinSoft.RegCompare/)
 
-Test Connection
+### Examples:
+##### Test Connection
 
 ```csharp
+
 TestConnectionResult result = RegistryCompare.TestConnection(machineName);
 if (result.Successful)
 {
@@ -24,8 +30,9 @@ else
 }
 ```
 
-Get Registry keys
+##### Get Registry keys
 ```csharp
+
 string machineName = "The computer name you want to connect to"
 string rootKey = "Console"
 RegistryHive hive = RegistryHive.CurrentUser
@@ -41,8 +48,9 @@ else
 }
 ```
 
-Save/Export Missing Entries
+##### Save/Export Missing Entries
 ```
+
 List<RegistryEntry> _missingEntriesFromMachineB;
 SaveFileDialog saveFileDialog1 = new SaveFileDialog();
 saveFileDialog1.Filter = "Registry File|*.reg";
@@ -56,8 +64,9 @@ if (saveFileDialog1.FileName != "")
 }
 ```
 
-Save/Export Matching Entries
+##### Save/Export Matching Entries
 ```
+
 List<RegistryEntryDifference> registryEntryDifferences;
 SaveFileDialog saveFileDialog1 = new SaveFileDialog();
 saveFileDialog1.Filter = "Text File|*.txt";
@@ -70,6 +79,14 @@ if (saveFileDialog1.FileName != "")
     RegFileHandler.ExportMatchingDifferences(registryEntryDifferences, sw);
 }
 ```
+
+## Release Notes
+* FindMtchingEntries bug fix.
+* Added more unit tests
+##### Added async methods with and without CancellationToken:
+* TestConnectionAsync
+* GetRegistryEntriesAsync
+
 
 
 License
