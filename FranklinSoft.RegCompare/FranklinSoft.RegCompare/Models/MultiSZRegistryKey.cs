@@ -4,6 +4,34 @@ namespace FranklinSoft.RegCompare.Models
 {
     public class MultiSZRegistryKey: RegistryKeyData
     {
+        protected bool Equals(MultiSZRegistryKey other)
+        {
+            return Equals(Data, other.Data);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((MultiSZRegistryKey) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (Data != null ? Data.GetHashCode() : 0);
+        }
+
+        public static bool operator ==(MultiSZRegistryKey left, MultiSZRegistryKey right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(MultiSZRegistryKey left, MultiSZRegistryKey right)
+        {
+            return !Equals(left, right);
+        }
+
         public string[] Data { get; set; }
 
         public MultiSZRegistryKey()

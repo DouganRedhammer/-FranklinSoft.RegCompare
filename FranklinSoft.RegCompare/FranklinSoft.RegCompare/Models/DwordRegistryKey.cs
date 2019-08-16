@@ -2,6 +2,34 @@
 {
     public class DwordRegistryKey : RegistryKeyData
     {
+        protected bool Equals(DwordRegistryKey other)
+        {
+            return Data == other.Data;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((DwordRegistryKey) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return Data;
+        }
+
+        public static bool operator ==(DwordRegistryKey left, DwordRegistryKey right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(DwordRegistryKey left, DwordRegistryKey right)
+        {
+            return !Equals(left, right);
+        }
+
         public int Data { get; set; }
 
         public DwordRegistryKey()

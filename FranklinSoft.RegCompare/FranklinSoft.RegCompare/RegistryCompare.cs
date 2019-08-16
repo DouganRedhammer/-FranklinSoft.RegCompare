@@ -54,7 +54,7 @@ namespace FranklinSoft.RegCompare
         {
             return (from A in list1
                 join B in list2 on A.Name.ToLower() equals B.Name.ToLower()
-                where A.Data != B.Data
+                where !A.Data.Equals(B.Data)
                 select new RegistryEntryDifference()
                 {
                     Name = A.Name,

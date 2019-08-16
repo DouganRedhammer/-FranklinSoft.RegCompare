@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Win32;
 using FranklinSoft.RegCompare;
+using FranklinSoft.RegCompare.Models;
 using FranklinSoft.RegCompare.Results;
 
 namespace FranklinSoft.RegCompareUnitTests
@@ -77,17 +78,243 @@ namespace FranklinSoft.RegCompareUnitTests
         }
 
         [TestMethod]
-        public async Task GetRegistryEntriesSuccessAsyncCancellationTest()
+        public async Task FindMatchingRegistryEntriesSZSuccessTest()
         {
-            var tokenSource = new CancellationTokenSource();
-            var token = tokenSource.Token;
+            List<RegistryEntry> listA = new List<RegistryEntry>();
+            List<RegistryEntry> listB = new List<RegistryEntry>();
 
-            string machineName = System.Environment.MachineName;
-            string rootKey = "Console";
-            RegistryHive hive = RegistryHive.CurrentUser;
-            int timeout = 1;
-            RegistryEntriesResult result = await RegistryCompare.GetRegistryEntriesAsync(hive, rootKey, machineName,tokenSource,token, timeout);
-            Assert.IsFalse(!result.Successful);
+            listA.Add(new RegistryEntry()
+            {
+                Data = new SZRegistryKey("testing1"),
+                FullPath = "a",
+                Location = "a\\a",
+                Name = "testkey",
+                Type = RegistryValueKind.String
+                
+            });
+
+            listB.Add(new RegistryEntry()
+            {
+                Data = new SZRegistryKey("testing2"),
+                FullPath = "a",
+                Location = "a\\a",
+                Name = "testkey",
+                Type = RegistryValueKind.String
+
+            });
+
+            List<RegistryEntryDifference> matchingRegistryEntries = RegistryCompare.FindMatchingRegistryEntries(listA, listB);
+            Assert.IsTrue(matchingRegistryEntries.Count > 0);
+        }
+
+        [TestMethod]
+        public async Task FindMatchingRegistryEntriesSZEmptyTest()
+        {
+            List<RegistryEntry> listA = new List<RegistryEntry>();
+            List<RegistryEntry> listB = new List<RegistryEntry>();
+
+            listA.Add(new RegistryEntry()
+            {
+                Data = new SZRegistryKey("testing"),
+                FullPath = "a",
+                Location = "a\\a",
+                Name = "testkey",
+                Type = RegistryValueKind.String
+
+            });
+
+            listB.Add(new RegistryEntry()
+            {
+                Data = new SZRegistryKey("testing"),
+                FullPath = "a",
+                Location = "a\\a",
+                Name = "testkey",
+                Type = RegistryValueKind.String
+
+            });
+
+            List<RegistryEntryDifference> matchingRegistryEntries = RegistryCompare.FindMatchingRegistryEntries(listA, listB);
+            Assert.IsTrue(matchingRegistryEntries.Count == 0);
+        }
+
+        [TestMethod]
+        public async Task FindMatchingRegistryEntriesDWordSucessTest()
+        {
+            List<RegistryEntry> listA = new List<RegistryEntry>();
+            List<RegistryEntry> listB = new List<RegistryEntry>();
+
+            listA.Add(new RegistryEntry()
+            {
+                Data = new DwordRegistryKey(5),
+                FullPath = "a",
+                Location = "a\\a",
+                Name = "testkey",
+                Type = RegistryValueKind.DWord
+
+            });
+
+            listB.Add(new RegistryEntry()
+            {
+                Data = new DwordRegistryKey(6),
+                FullPath = "a",
+                Location = "a\\a",
+                Name = "testkey",
+                Type = RegistryValueKind.DWord
+
+            });
+
+            List<RegistryEntryDifference> matchingRegistryEntries = RegistryCompare.FindMatchingRegistryEntries(listA, listB);
+            Assert.IsTrue(matchingRegistryEntries.Count > 0);
+        }
+
+        [TestMethod]
+        public async Task FindMatchingRegistryEntriesDWordEmptyTest()
+        {
+            List<RegistryEntry> listA = new List<RegistryEntry>();
+            List<RegistryEntry> listB = new List<RegistryEntry>();
+
+            listA.Add(new RegistryEntry()
+            {
+                Data = new DwordRegistryKey(5),
+                FullPath = "a",
+                Location = "a\\a",
+                Name = "testkey",
+                Type = RegistryValueKind.DWord
+
+            });
+
+            listB.Add(new RegistryEntry()
+            {
+                Data = new DwordRegistryKey(5),
+                FullPath = "a",
+                Location = "a\\a",
+                Name = "testkey",
+                Type = RegistryValueKind.DWord
+
+            });
+
+            List<RegistryEntryDifference> matchingRegistryEntries = RegistryCompare.FindMatchingRegistryEntries(listA, listB);
+            Assert.IsTrue(matchingRegistryEntries.Count == 0);
+        }
+
+        [TestMethod]
+        public async Task FindMatchingRegistryEntriesBinarySucessTest()
+        {
+            List<RegistryEntry> listA = new List<RegistryEntry>();
+            List<RegistryEntry> listB = new List<RegistryEntry>();
+
+            listA.Add(new RegistryEntry()
+            {
+                Data = new BinaryRegistryKey("a"),
+                FullPath = "a",
+                Location = "a\\a",
+                Name = "testkey",
+                Type = RegistryValueKind.Binary
+
+            });
+
+            listB.Add(new RegistryEntry()
+            {
+                Data = new BinaryRegistryKey("b"),
+                FullPath = "a",
+                Location = "a\\a",
+                Name = "testkey",
+                Type = RegistryValueKind.Binary
+
+            });
+
+            List<RegistryEntryDifference> matchingRegistryEntries = RegistryCompare.FindMatchingRegistryEntries(listA, listB);
+            Assert.IsTrue(matchingRegistryEntries.Count > 0);
+        }
+
+        [TestMethod]
+        public async Task FindMatchingRegistryEntriesBinaryEmptyTest()
+        {
+            List<RegistryEntry> listA = new List<RegistryEntry>();
+            List<RegistryEntry> listB = new List<RegistryEntry>();
+
+            listA.Add(new RegistryEntry()
+            {
+                Data = new BinaryRegistryKey("a"),
+                FullPath = "a",
+                Location = "a\\a",
+                Name = "testkey",
+                Type = RegistryValueKind.Binary
+
+            });
+
+            listB.Add(new RegistryEntry()
+            {
+                Data = new BinaryRegistryKey("a"),
+                FullPath = "a",
+                Location = "a\\a",
+                Name = "testkey",
+                Type = RegistryValueKind.Binary
+
+            });
+
+            List<RegistryEntryDifference> matchingRegistryEntries = RegistryCompare.FindMatchingRegistryEntries(listA, listB);
+            Assert.IsTrue(matchingRegistryEntries.Count == 0);
+        }
+
+        [TestMethod]
+        public async Task FindMatchingRegistryEntriesQwordSucessTest()
+        {
+            List<RegistryEntry> listA = new List<RegistryEntry>();
+            List<RegistryEntry> listB = new List<RegistryEntry>();
+
+            listA.Add(new RegistryEntry()
+            {
+                Data = new QwordRegistryKey("a"),
+                FullPath = "a",
+                Location = "a\\a",
+                Name = "testkey",
+                Type = RegistryValueKind.Binary
+
+            });
+
+            listB.Add(new RegistryEntry()
+            {
+                Data = new QwordRegistryKey("b"),
+                FullPath = "a",
+                Location = "a\\a",
+                Name = "testkey",
+                Type = RegistryValueKind.Binary
+
+            });
+
+            List<RegistryEntryDifference> matchingRegistryEntries = RegistryCompare.FindMatchingRegistryEntries(listA, listB);
+            Assert.IsTrue(matchingRegistryEntries.Count > 0);
+        }
+
+        [TestMethod]
+        public async Task FindMatchingRegistryEntriesQwordEmptyTest()
+        {
+            List<RegistryEntry> listA = new List<RegistryEntry>();
+            List<RegistryEntry> listB = new List<RegistryEntry>();
+
+            listA.Add(new RegistryEntry()
+            {
+                Data = new QwordRegistryKey("a"),
+                FullPath = "a",
+                Location = "a\\a",
+                Name = "testkey",
+                Type = RegistryValueKind.Binary
+
+            });
+
+            listB.Add(new RegistryEntry()
+            {
+                Data = new QwordRegistryKey("a"),
+                FullPath = "a",
+                Location = "a\\a",
+                Name = "testkey",
+                Type = RegistryValueKind.Binary
+
+            });
+
+            List<RegistryEntryDifference> matchingRegistryEntries = RegistryCompare.FindMatchingRegistryEntries(listA, listB);
+            Assert.IsTrue(matchingRegistryEntries.Count == 0);
         }
     }
 }

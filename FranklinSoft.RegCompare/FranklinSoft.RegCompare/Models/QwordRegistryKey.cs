@@ -5,6 +5,35 @@ namespace FranklinSoft.RegCompare.Models
     public class QwordRegistryKey: RegistryKeyData
     {
         public string Data { get; set; }
+
+        protected bool Equals(QwordRegistryKey other)
+        {
+            return string.Equals(Data, other.Data);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((QwordRegistryKey) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (Data != null ? Data.GetHashCode() : 0);
+        }
+
+        public static bool operator ==(QwordRegistryKey left, QwordRegistryKey right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(QwordRegistryKey left, QwordRegistryKey right)
+        {
+            return !Equals(left, right);
+        }
+
         public QwordRegistryKey()
         {
             this.Data = string.Empty;
