@@ -10,7 +10,7 @@
 
 Nuget install 
 ```sh
-PM> Install-Package FranklinSoft.RegCompare -Version 1.0.0
+PM> Install-Package FranklinSoft.RegCompare -Version 1.1.1
 ```
 [Nuget project page](https://www.nuget.org/packages/FranklinSoft.RegCompare/)
 
