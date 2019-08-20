@@ -81,7 +81,7 @@ if (saveFileDialog1.FileName != "")
 ```
 
 ## Release Notes
-* Added additional error handling
+* Non-existant keys were causing exceptions. GetRegistryEntries and GetRegistryEntriesAsync will return an empty list in this case.
 
 
 
