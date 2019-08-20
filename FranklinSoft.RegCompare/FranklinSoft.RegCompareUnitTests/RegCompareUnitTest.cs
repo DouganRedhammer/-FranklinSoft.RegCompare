@@ -327,5 +327,15 @@ namespace FranklinSoft.RegCompareUnitTests
             TestConnectionResult result = await RegistryCompare.TestConnectionAsync(machineName, cancellationTokenSource, cancellationToken, timeout);
             Assert.IsTrue(result.Successful);
         }
+
+        [TestMethod]
+        public async Task GetRegistryEntriesSuccessAsyncNoResultsTest()
+        {
+            string machineName = System.Environment.MachineName;
+            string rootKey = "asdgf3323";
+            RegistryHive hive = RegistryHive.CurrentUser;
+            RegistryEntriesResult result = await RegistryCompare.GetRegistryEntriesAsync(hive, rootKey, machineName);
+            Assert.IsTrue(result.RegistryEntries.Count == 0, "That key does not have any entries.");
+        }
     }
 }

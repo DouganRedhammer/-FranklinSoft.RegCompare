@@ -267,6 +267,10 @@ namespace FranklinSoft.RegCompare
             RegistryKey key;
             List<RegistryEntry> entries = new List<RegistryEntry>();
             key = hive.OpenSubKey(rootKey);
+            if (key == null)
+            {
+                return new List<RegistryEntry>();
+            }
             if (key != null && key.SubKeyCount > 1)
             {
                 foreach (var k in key.GetSubKeyNames())
