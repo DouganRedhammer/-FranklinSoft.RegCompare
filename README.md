@@ -10,7 +10,7 @@
 
 Nuget install 
 ```sh
-PM> Install-Package FranklinSoft.RegCompare -Version 1.1.1
+PM> Install-Package FranklinSoft.RegCompare -Version 1.2.1
 ```
 [Nuget project page](https://www.nuget.org/packages/FranklinSoft.RegCompare/)
 
@@ -81,11 +81,7 @@ if (saveFileDialog1.FileName != "")
 ```
 
 ## Release Notes
-* FindMtchingEntries bug fix.
-* Added more unit tests
-##### Added async methods with and without CancellationToken:
-* TestConnectionAsync
-* GetRegistryEntriesAsync
+* Added additional error handling
 
 
 
