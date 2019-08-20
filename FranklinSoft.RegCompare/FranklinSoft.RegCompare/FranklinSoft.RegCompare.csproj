@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConvertUtility.cs" />
+    <Compile Include="ErrorCodes.cs" />
     <Compile Include="MissingRegistryEntryComparer.cs" />
     <Compile Include="Models\BinaryRegistryKey.cs" />
     <Compile Include="Models\DwordRegistryKey.cs" />

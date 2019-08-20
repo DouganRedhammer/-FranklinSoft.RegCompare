@@ -10,6 +10,7 @@ namespace FranklinSoft.RegCompare.Results
     {
         public bool Successful { get; set; }
         public string Message { get; set; }
+        public ErrorCodes ErrorCode { get; set; }
         public Exception Exception { get; set; }
     }
 }

@@ -316,5 +316,16 @@ namespace FranklinSoft.RegCompareUnitTests
             List<RegistryEntryDifference> matchingRegistryEntries = RegistryCompare.FindMatchingRegistryEntries(listA, listB);
             Assert.IsTrue(matchingRegistryEntries.Count == 0);
         }
+
+        [TestMethod]
+        public async Task TestConnectionAsyncTimeoutTest()
+        {
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+            CancellationToken cancellationToken = cancellationTokenSource.Token;
+            int timeout = 100000000;
+            string machineName = System.Environment.MachineName;
+            TestConnectionResult result = await RegistryCompare.TestConnectionAsync(machineName, cancellationTokenSource, cancellationToken, timeout);
+            Assert.IsTrue(result.Successful);
+        }
     }
 }

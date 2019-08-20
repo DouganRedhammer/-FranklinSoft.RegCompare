@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Security;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,7 +28,42 @@ namespace FranklinSoft.RegCompare
                 return new RegistryEntriesResult()
                 {
                     Successful = true,
-                    RegistryEntries = entries ?? new List<RegistryEntry>()
+                    RegistryEntries = entries ?? new List<RegistryEntry>(),
+                    ErrorCode = ErrorCodes.EMPTY
+                };
+            }
+            catch (IOException io)
+            {
+                return new RegistryEntriesResult()
+                {
+                    Successful = false,
+                    Exception = io,
+                    Message = io.Message,
+                    RegistryEntries = new List<RegistryEntry>(),
+                    ErrorCode = ErrorCodes.IO_EXCEPTION
+                };
+            }
+            catch (SecurityException se)
+            {
+                return new RegistryEntriesResult()
+                {
+                    Successful = false,
+                    Exception = se,
+                    Message = se.Message,
+                    RegistryEntries = new List<RegistryEntry>(),
+                    ErrorCode = ErrorCodes.SECURITY_EXCEPTION
+                };
+            }
+            catch (UnauthorizedAccessException ue)
+            {
+                return new RegistryEntriesResult()
+                {
+                    Successful = false,
+                    Exception = ue,
+                    Message = ue.Message,
+                    RegistryEntries = new List<RegistryEntry>(),
+                    ErrorCode = ErrorCodes.UNAUTHORIZED_ACCESS_EXCEPTION
+
                 };
             }
             catch (Exception ex)
@@ -36,7 +73,8 @@ namespace FranklinSoft.RegCompare
                     Successful = false,
                     Exception = ex,
                     Message = ex.Message,
-                    RegistryEntries = new List<RegistryEntry>()
+                    RegistryEntries = new List<RegistryEntry>(),
+                    ErrorCode = ErrorCodes.GENERIC_EXCEPTION
                 };
             }
             finally
@@ -71,19 +109,51 @@ namespace FranklinSoft.RegCompare
             try
             {
                 hive = RegistryKey.OpenRemoteBaseKey(RegistryHive.LocalMachine, machineName, RegistryView.Registry64);
-
+                hive.OpenSubKey("Software");
                 return new TestConnectionResult()
                 {
                     Successful = true
                 };
             }
-            catch(Exception ex)
+            catch (IOException io)
+            {
+                return new TestConnectionResult()
+                {
+                    Successful = false,
+                    Exception = io,
+                    Message = io.Message,
+                    ErrorCode = ErrorCodes.IO_EXCEPTION
+                };
+            }
+
+            catch (SecurityException se)
+            {
+                return new TestConnectionResult()
+                {
+                    Successful = false,
+                    Exception = se,
+                    Message = se.Message,
+                    ErrorCode = ErrorCodes.SECURITY_EXCEPTION
+                };
+            }
+            catch (UnauthorizedAccessException ue)
+            {
+                return new TestConnectionResult()
+                {
+                    Successful = false,
+                    Exception = ue,
+                    Message = ue.Message,
+                    ErrorCode = ErrorCodes.UNAUTHORIZED_ACCESS_EXCEPTION
+                };
+            }
+            catch (Exception ex)
             {
                 return new TestConnectionResult()
                 {
                     Exception = ex,
                     Successful = false,
-                    Message =  ex.Message
+                    Message =  ex.Message,
+                    ErrorCode = ErrorCodes.GENERIC_EXCEPTION
                 };
             }
             finally
@@ -94,40 +164,29 @@ namespace FranklinSoft.RegCompare
 
         public static async Task<TestConnectionResult> TestConnectionAsync(string machineName, CancellationTokenSource tokenSource, CancellationToken token, int timeout)
         {
-            Task<bool> testConnection = Task<bool>.Factory.StartNew(() =>
+            Task<TestConnectionResult> testConnection = Task<TestConnectionResult>.Factory.StartNew(() =>
             {
                 TestConnectionResult result = TestConnection(machineName);
-                return result.Successful;
+                return result;
             }, tokenSource.Token);
 
-            TestConnectionResult testConnectionResult = new TestConnectionResult()
-            {
-                Message = string.Empty,
-                Successful = false
-            };
 
             if (await Task.WhenAny(testConnection, Task.Delay(timeout, token)) == testConnection)
             {
                 await testConnection;
-                testConnectionResult.Successful = testConnection.Result;
-                return testConnectionResult;
+                return testConnection.Result;
             }
-
-            if (!testConnection.Result)
+            else
             {
-                try
+                return new TestConnectionResult()
                 {
-                    tokenSource.Cancel();
-                    token.ThrowIfCancellationRequested();
-                }
-                catch (OperationCanceledException ex)
-                {
-                    testConnectionResult.Exception = ex;
-                    return testConnectionResult;
-                }
-            }
+                    Exception = new TimeoutException(),
+                    Successful = false,
+                    ErrorCode = ErrorCodes.TIMEOUT,
+                    Message = "Connection timed out while trying to connect to " + machineName
+                };
 
-            return testConnectionResult;
+            }
         }
 
         public static async Task<TestConnectionResult> TestConnectionAsync(string machineName)
